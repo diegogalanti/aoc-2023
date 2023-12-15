@@ -2,8 +2,8 @@ import kotlin.system.measureTimeMillis
 
 fun main() {
     fun part1(input: String) = input.split(',').sumOf { token ->
-        token.map { it.code }.fold(0) { a, b ->
-            (((a+b) * 17) % 256)
+        token.fold(0) { a, b ->
+            (((a+b.code) * 17) % 256)
         } as Int
     }
 
