@@ -1,8 +1,8 @@
 fun main() {
     fun part1(input: String) = input.split(',').sumOf { token ->
-        (token.map { it.code }.reduce { a, b ->
-            ((a * 17) % 256) + b
-        } * 17) % 256
+        token.map { it.code }.fold(0) { a, b ->
+            (((a+b) * 17) % 256)
+        } as Int
     }
 
     fun part2(input: String): Int {
