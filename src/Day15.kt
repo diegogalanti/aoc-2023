@@ -1,3 +1,5 @@
+import kotlin.system.measureTimeMillis
+
 fun main() {
     fun part1(input: String) = input.split(',').sumOf { token ->
         token.map { it.code }.fold(0) { a, b ->
@@ -39,6 +41,6 @@ fun main() {
     check(part2(testInput) == 145)
 
     val input = readInput("Day15")[0]
-    part1(input).println()
-    part2(input).println()
+    println("Results: part 1 = ${part1(input)} | part 2 = ${part2(input)}")
+    println("Time to run: part 1 = ${measureTimeMillis {part1(input)}}ms | part 2 = ${measureTimeMillis {part2(input)}}ms")
 }
