@@ -88,14 +88,23 @@ fun main() {
     }
 
     fun part2(input: List<String>): Int {
-        return 0
+        val possibilities = mutableListOf<Int>()
+        for (i in input.indices) {
+            possibilities.add(part1(input, Direction.RIGHT, i, 0))
+            possibilities.add(part1(input, Direction.LEFT, i, input[i].length - 1))
+        }
+        for (i in input[0].indices) {
+            possibilities.add(part1(input, Direction.DOWN, 0, i))
+            possibilities.add(part1(input, Direction.UP, 0, input.size - 1))
+        }
+        return possibilities.max()
     }
 
 
 // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day16_test")
     check(part1(testInput, Direction.RIGHT, 0, 0) == 46)
-    check(part2(testInput) == 0)
+    check(part2(testInput) == 51)
 
     val input = readInput("Day16")
     println("Results: part 1 = ${part1(input, Direction.RIGHT, 0, 0)} | part 2 = ${part2(input)}")
