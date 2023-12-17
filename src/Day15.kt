@@ -10,23 +10,15 @@ fun main() {
     fun part2(input: String): Int {
         val map = HashMap<String, Pair<Int, Int>>()
         input.split(',').forEachIndexed { i, token ->
-            val indexOpe = token.indexOfAny(listOf("=", "-"))
-            val key = token.substring(0..<indexOpe)
-            val operation = token[indexOpe]
-            val value = token.substring(indexOpe + 1)
-            if (operation == '=') {
-                if (map[key] == null)
-                    map[key] = Pair(value.toInt(), i)
-                else
-                    map[key] = Pair(value.toInt(), map[key]!!.second)
-            } else
+            val (key, value) = token.split('=','-')
+            if (value.isNotEmpty())
+                map[key] = if (map[key] == null) Pair(value.toInt(), i) else Pair(value.toInt(), map[key]!!.second)
+            else
                 map.remove(key)
         }
         val boxes = Array(256) { 0 }
         var result = 0
-        map.toSortedMap(compareBy {
-            map[it]?.second
-        }).forEach {
+        map.toSortedMap(compareBy {map[it]?.second}).forEach {
             val hash = part1(it.key)
             boxes[hash]++
             result += (hash + 1) * boxes[hash] * it.value.first
