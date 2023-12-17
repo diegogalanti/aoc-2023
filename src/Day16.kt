@@ -87,18 +87,18 @@ fun main() {
         return cavern.sumOf { line -> line.count{ it.energized }}
     }
 
-    fun part2(input: List<String>): Int {
-        val possibilities = mutableListOf<Int>()
-        for (i in input.indices) {
-            possibilities.add(part1(input, Direction.RIGHT, i, 0))
-            possibilities.add(part1(input, Direction.LEFT, i, input[i].length - 1))
-        }
-        for (i in input[0].indices) {
-            possibilities.add(part1(input, Direction.DOWN, 0, i))
-            possibilities.add(part1(input, Direction.UP, 0, input.size - 1))
-        }
-        return possibilities.max()
+fun part2(input: List<String>): Int {
+    val possibilities = mutableListOf<Int>()
+    for (i in input.indices) {
+        possibilities.add(part1(input, Direction.RIGHT, i, 0))
+        possibilities.add(part1(input, Direction.LEFT, i, input[i].length - 1))
     }
+    for (i in input[0].indices) {
+        possibilities.add(part1(input, Direction.DOWN, 0, i))
+        possibilities.add(part1(input, Direction.UP, 0, input.size - 1))
+    }
+    return possibilities.max()
+}
 
 
 // test if implementation meets criteria from the description, like:
