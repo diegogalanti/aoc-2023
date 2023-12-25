@@ -19,21 +19,6 @@ fun main() {
             //adjacencyList[destination]?.add(source) // Assuming an undirected graph
         }
 
-        fun dfs(startVertex: PointForest) {
-            val visited = mutableSetOf<PointForest>()
-            dfsRecursive(startVertex, visited)
-        }
-
-        private fun dfsRecursive(vertex: PointForest, visited: MutableSet<PointForest>) {
-            visited.add(vertex)
-
-            adjacencyList[vertex]?.forEach { neighbor ->
-                if (!visited.contains(neighbor)) {
-                    dfsRecursive(neighbor, visited)
-                }
-            }
-        }
-
         fun longestPath(startVertex: PointForest, endVertex: PointForest): List<PointForest> {
             val visited = mutableSetOf<PointForest>()
             val visitedMap = mutableMapOf<PointForest, Int>()
@@ -111,8 +96,6 @@ fun main() {
                 }
             }
         }
-
-        graph.dfs(startVertex)
         val longestPath = graph.longestPath(startVertex, endVertex)
         return longestPath.size - 1
     }
