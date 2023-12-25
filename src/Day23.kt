@@ -1,99 +1,74 @@
 import kotlin.math.abs
 
-data class PointForest(val x: Int, val y: Int)
-class Graph {
-    val adjacencyList: MutableMap<PointForest, MutableList<PointForest>> = mutableMapOf()
 
-    fun addVertex(vertex: PointForest) {
-        adjacencyList[vertex] = mutableListOf()
-    }
-
-    fun addEdge(source: PointForest, destination: PointForest) {
-        adjacencyList[source]?.add(destination)
-        adjacencyList[source]?.sortByDescending {
-            abs(it.y - 140) + abs(it.x - 139)
-        }
-        //adjacencyList[destination]?.add(source) // Assuming an undirected graph
-    }
-
-    fun dfs(startVertex: PointForest) {
-        val visited = mutableSetOf<PointForest>()
-        dfsRecursive(startVertex, visited)
-    }
-
-    private fun dfsRecursive(vertex: PointForest, visited: MutableSet<PointForest>) {
-        visited.add(vertex)
-
-        adjacencyList[vertex]?.forEach { neighbor ->
-            if (!visited.contains(neighbor)) {
-                dfsRecursive(neighbor, visited)
-            }
-        }
-    }
-
-    fun longestPath(startVertex: PointForest, endVertex: PointForest): List<PointForest> {
-        val visited = mutableSetOf<PointForest>()
-        val visitedMap = mutableMapOf<PointForest, Int>()
-        val currentPath = mutableListOf<PointForest>()
-        val longestPath = mutableListOf<PointForest>()
-
-        longestPathRecursive(startVertex, endVertex, visited, visitedMap, currentPath, longestPath)
-
-        return longestPath
-    }
-
-    private fun longestPathRecursive(
-        currentVertex: PointForest,
-        endVertex: PointForest,
-        visited: MutableSet<PointForest>,
-        visitedMap: MutableMap<PointForest, Int>,
-        currentPath: MutableList<PointForest>,
-        longestPath: MutableList<PointForest>
-    ) {
-        visited.add(currentVertex)
-        currentPath.add(currentVertex)
-        if (currentVertex == endVertex && currentPath.size > longestPath.size) {
-            println(" Achou = ${currentPath.size}")
-            longestPath.clear()
-            longestPath.addAll(currentPath)
-        }
-
-        adjacencyList[currentVertex]?.forEach { neighbor ->
-            if (!visited.contains(neighbor)) {
-                longestPathRecursive(neighbor, endVertex, visited, visitedMap, currentPath, longestPath)
-            }
-        }
-        visited.remove(currentVertex)
-        currentPath.removeAt(currentPath.size - 1)
-    }
-}
 
 fun main() {
+    data class PointForest(val x: Int, val y: Int)
+    class Graph {
+        val adjacencyList: MutableMap<PointForest, MutableList<PointForest>> = mutableMapOf()
 
-//    fun main() {
-//        val graph = Graph()
-//
-//        // Adding vertices
-//        val pointA = Point2D(0.0, 0.0)
-//        val pointB = Point2D(1.0, 1.0)
-//        val pointC = Point2D(2.0, 2.0)
-//
-//        graph.addVertex(pointA)
-//        graph.addVertex(pointB)
-//        graph.addVertex(pointC)
-//
-//        // Adding edges
-//        graph.addEdge(pointA, pointB)
-//        graph.addEdge(pointB, pointC)
-//
-//        // Perform DFS starting from a specific vertex
-//        println("Depth-First Search:")
-//        graph.dfs(pointA)
-//
-//        // Find the longest path between specified vertices
+        fun addVertex(vertex: PointForest) {
+            adjacencyList[vertex] = mutableListOf()
+        }
 
-//    println("Longest path between $startVertex and $endVertex: $longestPath")
+        fun addEdge(source: PointForest, destination: PointForest) {
+            adjacencyList[source]?.add(destination)
+            adjacencyList[source]?.sortByDescending {
+                abs(it.y - 140) + abs(it.x - 139)
+            }
+            //adjacencyList[destination]?.add(source) // Assuming an undirected graph
+        }
 
+        fun dfs(startVertex: PointForest) {
+            val visited = mutableSetOf<PointForest>()
+            dfsRecursive(startVertex, visited)
+        }
+
+        private fun dfsRecursive(vertex: PointForest, visited: MutableSet<PointForest>) {
+            visited.add(vertex)
+
+            adjacencyList[vertex]?.forEach { neighbor ->
+                if (!visited.contains(neighbor)) {
+                    dfsRecursive(neighbor, visited)
+                }
+            }
+        }
+
+        fun longestPath(startVertex: PointForest, endVertex: PointForest): List<PointForest> {
+            val visited = mutableSetOf<PointForest>()
+            val visitedMap = mutableMapOf<PointForest, Int>()
+            val currentPath = mutableListOf<PointForest>()
+            val longestPath = mutableListOf<PointForest>()
+
+            longestPathRecursive(startVertex, endVertex, visited, visitedMap, currentPath, longestPath)
+
+            return longestPath
+        }
+
+        private fun longestPathRecursive(
+            currentVertex: PointForest,
+            endVertex: PointForest,
+            visited: MutableSet<PointForest>,
+            visitedMap: MutableMap<PointForest, Int>,
+            currentPath: MutableList<PointForest>,
+            longestPath: MutableList<PointForest>
+        ) {
+            visited.add(currentVertex)
+            currentPath.add(currentVertex)
+            if (currentVertex == endVertex && currentPath.size > longestPath.size) {
+                longestPath.clear()
+                longestPath.addAll(currentPath)
+            }
+
+            adjacencyList[currentVertex]?.forEach { neighbor ->
+                if (!visited.contains(neighbor)) {
+                    longestPathRecursive(neighbor, endVertex, visited, visitedMap, currentPath, longestPath)
+                }
+            }
+            visited.remove(currentVertex)
+            currentPath.removeAt(currentPath.size - 1)
+        }
+    }
 
     fun part1(input: List<String>): Int {
         val graph = Graph()
